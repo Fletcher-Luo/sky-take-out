@@ -5,6 +5,7 @@ import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
+import com.sky.mapper.EmployeeMapper;
 import com.sky.properties.JwtProperties;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -110,6 +111,32 @@ public class EmployeeController {
     public Result startOrStop(@PathVariable Integer status, Long id) {
         log.info("啟用禁用員工帳號");
         employeeService.startOrStop(status, id);
+        return Result.success();
+    }
+
+    /**
+     * 根據id查詢員工信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根據id查詢員工信息")
+    public Result<Employee> getById(@PathVariable Long id) {
+        log.info("根據id查詢員工信息, id是{}", id);
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * 編輯員工信息
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("編輯員工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("編輯員工信息{}", employeeDTO);
+        employeeService.update(employeeDTO);
         return Result.success();
     }
 }
